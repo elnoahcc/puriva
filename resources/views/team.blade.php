@@ -44,31 +44,7 @@
 </head>
 <body class="bg-white text-gray-900 font-inter">
     
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 top-4">
-        <div class="container mx-auto px-6">
-            <div class="max-w-5xl mx-auto bg-white/95 backdrop-blur-lg shadow-lg border border-gray-200 rounded-2xl px-8 py-4">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <img src="images/logo puriva.png" alt="PURIVA" class="h-12 w-auto">
-                    </div>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="index.html" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">Home</a>
-                        <a href="index.html#about" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">About Us</a>
-                        <a href="index.html#product" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">Product</a>
-                        <a href="index.html#news" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">News</a>
-                        <a href="team.html" class="text-puriva-blue font-semibold">Team</a>
-                        <a href="index.html#contact" class="bg-puriva-blue text-white px-6 py-2 rounded-full hover:bg-puriva-dark transition-colors">Contact</a>
-                    </div>
-                    <button id="menu-btn" class="md:hidden">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('partials.navbar')
 
     <!-- Hero Section -->
     <section class="pt-32 pb-20 ">
@@ -271,100 +247,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-16 bg-white border-t border-gray-200">
-        <div class="container mx-auto px-6">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid md:grid-cols-4 gap-12 mb-12">
-                    <!-- Company Info -->
-                    <div class="md:col-span-2">
-                        <div class="mb-6">
-                            <img src="images/logo puriva.png" alt="PURIVA" class="h-12">
-                        </div>
-                        <p class="text-gray-600 mb-6 max-w-md leading-relaxed">
-                            Revolutionizing food safety in Indonesian schools with smart UV-C sterilization technology.
-                        </p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="bg-puriva-light text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-                            <a href="#" class="bg-puriva-light text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                </svg>
-                            </a>
-                            <a href="#" class="bg-puriva-light text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Links -->
-                    <div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-6">Quick Links</h4>
-                        <ul class="space-y-4">
-                            <li><a href="index.html" class="text-gray-600 hover:text-puriva-blue transition-colors">Home</a></li>
-                            <li><a href="index.html#about" class="text-gray-600 hover:text-puriva-blue transition-colors">About Us</a></li>
-                            <li><a href="index.html#product" class="text-gray-600 hover:text-puriva-blue transition-colors">Product</a></li>
-                            <li><a href="index.html#news" class="text-gray-600 hover:text-puriva-blue transition-colors">News</a></li>
-                            <li><a href="team.html" class="text-gray-600 hover:text-puriva-blue transition-colors">Team</a></li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Contact -->
-                    <div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-6">Contact</h4>
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-puriva-light p-2 rounded-lg">
-                                    <svg class="w-4 h-4 text-puriva-blue" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-gray-600 text-sm">puriva2025@gmail.com</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-puriva-light p-2 rounded-lg">
-                                    <svg class="w-4 h-4 text-puriva-blue" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-gray-600 text-sm">+62 896 1853 0996</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-puriva-light p-2 rounded-lg">
-                                    <svg class="w-4 h-4 text-puriva-blue" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-gray-600 text-sm">@official_puriva</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bottom Border -->
-                <div class="border-t border-gray-200 pt-8">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                            &copy; 2025 PURIVA. All rights reserved.
-                        </p>
-                        <div class="flex space-x-6">
-                            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Privacy</a>
-                            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Terms</a>
-                            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Cookies</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+   @include('partials.footer')
 
     <script>
         AOS.init({

@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\News;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-class HomeController extends Controller
+class Controller extends BaseController
 {
-    public function index()
-    {
-        // Ambil news yang published dan urutkan berdasarkan tanggal publish terbaru
-        $news = News::published()
-                   ->latest('published_at')
-                   ->take(6) // Ambil 6 berita terbaru
-                   ->get();
-
-        return view('index', compact('news'));
-    }
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

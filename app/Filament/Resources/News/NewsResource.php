@@ -4,50 +4,45 @@ namespace App\Filament\Resources\News;
 
 use App\Models\News;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
 use App\Filament\Resources\News\Pages;
-use UnitEnum; // ✅ Tambahkan ini
 
 class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-
-    // ✅ FIX: sesuai signature di Filament\Resource
-    protected static UnitEnum|string|null $navigationGroup = 'Content Management';
-
-    public static function form(Form $form): Form
+    // Form sekarang menggunakan Schema
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
+        return $schema->schema([
+            Forms\Components\TextInput::make('title')
+                ->label('Judul Berita')
+                ->required()
+                ->maxLength(255),
 
-                Forms\Components\Textarea::make('content')
-                    ->required(),
+    Forms\Components\FileUpload::make('image')
+    ->label('Gambar')
+    ->image()
+    ->disk('public')       // <- pastikan ini ada
+    ->directory('news-images')
+    ->visibility('public'),
 
-                Forms\Components\DateTimePicker::make('published_at'),
-            ]);
+
+            Forms\Components\RichEditor::make('content')
+                ->label('Isi Berita')
+                ->required(),
+        ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
-                    ->sortable(),
-            ])
-            ->filters([]);
+        return $table->columns([
+            Tables\Columns\ImageColumn::make('image')->label('Gambar'),
+            Tables\Columns\TextColumn::make('title')->label('Judul')->searchable()->sortable(),
+            Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y H:i')->label('Dibuat'),
+        ]);
     }
 
     public static function getRelations(): array

@@ -72,31 +72,9 @@
 
 <body class="bg-gradient-to-br from-puriva-light/30 to-white overflow-x-hidden bg-white text-gray-900 font-inter">
     
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 top-4">
-        <div class="container mx-auto px-6">
-            <div class="max-w-5xl mx-auto bg-white/95 backdrop-blur-lg shadow-lg border border-gray-200 rounded-2xl px-8 py-4">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <img src="images/logo puriva.png" alt="PURIVA" class="h-12 w-auto">
-                    </div>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#home" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">Home</a>
-                        <a href="#about" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">About Us</a>
-                        <a href="#product" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">Product</a>
-                        <a href="#news" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">News</a>
-                        <a href="{{ url('/team') }}" class="text-gray-700 hover:text-puriva-blue font-medium transition-colors">Team</a>
-                        <a href="#contact" class="bg-puriva-blue text-white px-6 py-2 rounded-full hover:bg-puriva-dark transition-colors">Contact</a>
-                    </div>
-                    <button id="menu-btn" class="md:hidden">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+
+  @include('partials.navbar')
+    
 
     <!-- Hero Section -->
     <section id="home" class="pt-32 pb-20 bg-gradient-to-br from-puriva-light/30 to-white">
@@ -580,7 +558,6 @@ Terima kasih! 🙏`;
 
 
 
-<!-- News Section -->
 <section id="news" class="py-20">
   <div class="container mx-auto px-6">
     <div class="max-w-7xl mx-auto">
@@ -591,47 +568,42 @@ Terima kasih! 🙏`;
 
       <div class="grid md:grid-cols-3 gap-8">
         @forelse($news as $index => $item)
-        <!-- News Item {{ $index + 1 }} -->
-        <article class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
-          <div class="h-48">
-            @if($item->image)
-              <img src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover" />
-            @else
-              <!-- Fallback image berdasarkan kategori -->
+          <article class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
+            <div class="h-48">
               @php
+                // Tentukan gambar fallback jika tidak ada
                 $defaultImages = [
-                  'Award' => 'images/sdgs 3.png',
-                  'Partnership' => 'images/sma 6 yogyakarta.jpg',
-                  'Research' => 'images/uv chamber.png'
+                  'Award' => '',
+                  'Partnership' => '',
+                  'Research' => ''
                 ];
-                $defaultImage = $defaultImages[$item->category] ?? 'images/default-news.jpg';
+                $imageUrl = $item->image ? Storage::url($item->image) : asset($defaultImages[$item->category] ?? 'images/default-news.jpg');
               @endphp
-              <img src="{{ asset($defaultImage) }}" alt="{{ $item->title }}" class="w-full h-full object-cover" />
-            @endif
-          </div>
-          <div class="p-6">
-            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
-              <span>{{ $item->published_at ? $item->published_at->format('F d, Y') : $item->created_at->format('F d, Y') }}</span>
-              <span>•</span>
-              <span>{{ $item->category }}</span>
+              <img src="{{ $imageUrl }}" alt="{{ $item->title }}" class="w-full h-full object-cover" />
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $item->title }}</h3>
-            <p class="text-gray-600 mb-4">
-              {{ $item->excerpt ?: Str::limit(strip_tags($item->content), 100) }}
-            </p>
-            <button onclick="openModal('news{{ $item->id }}')" class="text-puriva-blue font-semibold hover:text-puriva-dark transition-colors">Read More →</button>
-          </div>
-        </article>
+            <div class="p-6">
+              <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                <span>{{ $item->published_at ? $item->published_at->format('F d, Y') : $item->created_at->format('F d, Y') }}</span>
+                <span>•</span>
+                <span>{{ $item->category }}</span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $item->title }}</h3>
+              <p class="text-gray-600 mb-4">
+                {{ $item->excerpt ?: Str::limit(strip_tags($item->content), 100) }}
+              </p>
+              <button onclick="openModal('news{{ $item->id }}')" class="text-puriva-blue font-semibold hover:text-puriva-dark transition-colors">Read More →</button>
+            </div>
+          </article>
         @empty
-        <!-- Fallback jika tidak ada berita -->
-        <div class="col-span-3 text-center py-12">
-          <p class="text-gray-500 text-lg">No news available at the moment.</p>
-        </div>
+          <div class="col-span-3 text-center py-12">
+            <p class="text-gray-500 text-lg">No news available at the moment.</p>
+          </div>
         @endforelse
       </div>
     </div>
   </div>
 </section>
+
 
 <!-- Dynamic Modals -->
 @foreach($news as $item)
@@ -669,36 +641,6 @@ Terima kasih! 🙏`;
 </div>
 @endforeach
 
-<script>
-  function openModal(id) {
-    document.getElementById(id).classList.remove("hidden");
-    document.body.style.overflow = 'hidden'; // Prevent body scroll
-  }
-  
-  function closeModal(id) {
-    document.getElementById(id).classList.add("hidden");
-    document.body.style.overflow = 'auto'; // Restore body scroll
-  }
-  
-  // Close modal when clicking outside
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('[id^="news"]:not([id*="modal"])')) {
-      const modal = e.target;
-      if (e.target === modal) {
-        closeModal(modal.id);
-      }
-    }
-  });
-  
-  // Close modal with ESC key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('[id^="news"]:not(.hidden)').forEach(modal => {
-        closeModal(modal.id);
-      });
-    }
-  });
-</script>
 
 
     <!-- SDGs & Partners -->
@@ -862,91 +804,10 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
 });
 </script>
 
-
-    <!-- Footer -->
-<footer class="py-16 bg-white border-t border-gray-200">
-  <div class="container mx-auto px-6">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid md:grid-cols-4 gap-12 mb-12">
-        
-        <!-- Company Info -->
-        <div class="md:col-span-2">
-          <div class="mb-6">
-            <img src="images/logo puriva.png" alt="PURIVA" class="h-12">
-          </div>
-          <p class="text-gray-600 mb-6 max-w-md leading-relaxed">
-            Revolutionizing food safety in Indonesian schools with smart UV-C sterilization technology.
-          </p>
-          <div class="flex space-x-4">
-            <a href="#" class=" text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-              <i class="fa-brands fa-facebook-f w-5 h-5"></i>
-            </a>
-            <a href="#" class=" text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-              <i class="fa-brands fa-instagram w-5 h-5"></i>
-            </a>
-            <a href="#" class=" text-puriva-blue p-3 rounded-xl hover:bg-puriva-blue hover:text-white transition-all">
-              <i class="fa-brands fa-linkedin-in w-5 h-5"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Quick Links -->
-        <div>
-          <h4 class="text-lg font-bold text-gray-900 mb-6">Quick Links</h4>
-          <ul class="space-y-4">
-            <li><a href="#home" class="text-gray-600 hover:text-puriva-blue transition-colors">Home</a></li>
-            <li><a href="#about" class="text-gray-600 hover:text-puriva-blue transition-colors">About Us</a></li>
-            <li><a href="#product" class="text-gray-600 hover:text-puriva-blue transition-colors">Product</a></li>
-            <li><a href="#news" class="text-gray-600 hover:text-puriva-blue transition-colors">News</a></li>
-            <li><a href="team.html" class="text-gray-600 hover:text-puriva-blue transition-colors">Team</a></li>
-          </ul>
-        </div>
-        
-        <!-- Contact -->
-        <div>
-          <h4 class="text-lg font-bold text-gray-900 mb-6">Contact</h4>
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3">
-              <div class=" p-2">
-                <i class="fa-solid fa-envelope text-puriva-blue text-sm"></i>
-              </div>
-              <span class="text-gray-600 text-sm">puriva2025@gmail.com</span>
-            </div>
-            <div class="flex items-center space-x-3">
-              <div class=" p-2">
-                <i class="fa-solid fa-phone text-puriva-blue text-sm"></i>
-              </div>
-              <span class="text-gray-600 text-sm">+62 896 1853 0996</span>
-            </div>
-            <div class="flex items-center space-x-3">
-              <div class="p-2">
-                <i class="fa-brands fa-instagram text-puriva-blue text-sm"></i>
-              </div>
-              <span class="text-gray-600 text-sm">@official_puriva</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Bottom Border -->
-      <div class="border-t border-gray-200 pt-8">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-500 text-sm mb-4 md:mb-0">
-            &copy; 2025 PURIVA. All rights reserved.
-          </p>
-          <div class="flex space-x-6">
-            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Privacy</a>
-            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Terms</a>
-            <a href="#" class="text-gray-500 hover:text-puriva-blue text-sm transition-colors">Cookies</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+@include('partials.footer')
 
 
-    <script>
+       <script>
         AOS.init({
             duration: 800,
             once: true,
@@ -981,5 +842,6 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
             }
         });
     </script>
+ 
 </body>
 </html>
