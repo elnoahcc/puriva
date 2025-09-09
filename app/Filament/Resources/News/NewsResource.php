@@ -25,9 +25,10 @@ class NewsResource extends Resource
     Forms\Components\FileUpload::make('image')
     ->label('Gambar')
     ->image()
-    ->disk('public')       // <- pastikan ini ada
+    ->disk('public')
     ->directory('news-images')
     ->visibility('public'),
+
 
 
             Forms\Components\RichEditor::make('content')

@@ -566,21 +566,22 @@ Terima kasih! 🙏`;
         <p class="text-xl text-gray-600">Stay updated with PURIVA's innovations</p>
       </div>
 
+      <!-- Grid News -->
       <div class="grid md:grid-cols-3 gap-8">
-        @forelse($news as $index => $item)
-          <article class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
+        @foreach($news as $index => $item)
+          <article 
+            data-news-index="{{ $index }}"
+            class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 {{ $index >= 3 ? 'hidden' : '' }}"
+            data-aos="fade-up" 
+            data-aos-delay="{{ ($index + 1) * 100 }}"
+          >
             <div class="h-48">
               @php
-                // Tentukan gambar fallback jika tidak ada
-                $defaultImages = [
-                  'Award' => '',
-                  'Partnership' => '',
-                  'Research' => ''
-                ];
-                $imageUrl = $item->image ? Storage::url($item->image) : asset($defaultImages[$item->category] ?? 'images/default-news.jpg');
+                  $imageUrl = $item->image ? Storage::url($item->image) : asset('images/default-news.jpg');
               @endphp
               <img src="{{ $imageUrl }}" alt="{{ $item->title }}" class="w-full h-full object-cover" />
             </div>
+
             <div class="p-6">
               <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
                 <span>{{ $item->published_at ? $item->published_at->format('F d, Y') : $item->created_at->format('F d, Y') }}</span>
@@ -594,18 +595,26 @@ Terima kasih! 🙏`;
               <button onclick="openModal('news{{ $item->id }}')" class="text-puriva-blue font-semibold hover:text-puriva-dark transition-colors">Read More →</button>
             </div>
           </article>
-        @empty
-          <div class="col-span-3 text-center py-12">
-            <p class="text-gray-500 text-lg">No news available at the moment.</p>
-          </div>
-        @endforelse
+        @endforeach
       </div>
+
+      <!-- Tombol Selengkapnya -->
+      @if($news->count() > 3)
+        <div class="text-center mt-10">
+          <button 
+            id="toggleNewsBtn"
+            class="px-6 py-3 bg-puriva-blue text-white rounded-xl font-semibold shadow-md hover:bg-puriva-dark transition"
+            onclick="toggleNews()"
+          >
+            Lihat Selengkapnya
+          </button>
+        </div>
+      @endif
     </div>
   </div>
 </section>
 
-
-<!-- Dynamic Modals -->
+<!-- Modals -->
 @foreach($news as $item)
 <div id="news{{ $item->id }}" class="fixed inset-0 hidden bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
   <div class="bg-white rounded-2xl max-w-2xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
@@ -640,6 +649,33 @@ Terima kasih! 🙏`;
   </div>
 </div>
 @endforeach
+
+<script>
+  let showAll = false;
+  function toggleNews() {
+    showAll = !showAll;
+    document.querySelectorAll('[data-news-index]').forEach((el, i) => {
+      if (i >= 3) { // semua berita setelah 3 pertama
+        if (showAll) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      }
+    });
+    document.getElementById('toggleNewsBtn').innerText = showAll ? 'Tutup' : 'Lihat Selengkapnya';
+  }
+
+  function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+  }
+</script>
+
+
+
 
 
 
